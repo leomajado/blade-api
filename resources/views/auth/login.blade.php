@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login.auth') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -67,6 +67,13 @@
                     </form>
                 </div>
             </div>
+            @if($errors->any())
+                    {!! implode('', $errors->all('
+                        <div class="alert alert-danger" role="alert">
+                            <strong>:message</strong>
+                        </div>'))
+                    !!}
+            @endif
         </div>
     </div>
 </div>
