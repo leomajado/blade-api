@@ -11,10 +11,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 
 use Exception;
-
 
 class AuthController extends Controller
 {
@@ -36,7 +34,7 @@ class AuthController extends Controller
             $client = new Client([
                 'base_uri' => $api_url,
                 'defaults' => [
-                    'exceptions' => true,
+                    'exceptions' => false,
                     'timeout' => 1000
                 ]
             ]);
@@ -52,30 +50,56 @@ class AuthController extends Controller
             Session::put('access_token',$data['access_token']);
 
             $response = $client->get($api_url.'/user',[
-                'debug' => true,
+                'debug' => false,
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $data['access_token']
+                    'Authorization' => 'Bearer '.$data['access_token']
                 ]
             ]);
 
-            $user = json_decode((string) $response->getBody()->getContents(), true);
+            $user = json_decode((string) $response->getBody(), true);
 
             Session::put('user',$user);
+
+            return view('home',['user' => $user]);
 
         } catch (\Exception $ex) {
             if($ex->getCode()=='401')
                 return redirect()->back()->withErrors('Unauthorized')->withInput();
             else {
-                Session::forget('access_token');
-                session::forget('user');
-                Session::flush();
+                $this->killSession();
                 return redirect()->back()->withErrors($validator)->withInput();
             }
         }
     }
 
+    public function logout(){
+        $this->killSession();
+        return redirect('/login');
+    }
+
     public function index(){
         return view('auth.login');
+    }
+
+    public function signup(){
+        return view('auth.register');
+    }
+
+    public function register(Request $request){
+        try {
+
+
+        } catch (\Exception $ex) {
+
+        }
+    }
+
+    private function killSession(){
+        if(!empty(Session::get('access_token'))){
+            Session::forget('access_token');
+            session::forget('user');
+            Session::flush();
+        }
     }
 
 }
