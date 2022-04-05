@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+
 use App\Traits\UserTrait;
 
 use Illuminate\Http\Request;
@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 use GuzzleHttp\Client;
-
-use Illuminate\Support\Facades\Hash;
 
 use Exception;
 

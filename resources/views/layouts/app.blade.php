@@ -61,6 +61,13 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a
+                                        class="dropdown-item"
+                                        href="{{ route('posts.index') }}"
+                                    >
+                                        Posts
+                                    </a>
+
                                     <a class="dropdown-item" href="{{ route('auth.logout') }}"
                                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">

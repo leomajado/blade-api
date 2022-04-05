@@ -25,3 +25,5 @@ Route::post('/logout',[App\Http\Controllers\Backend\AuthController::class, 'logo
 
 Route::get('/signup',[App\Http\Controllers\Backend\AuthController::class, 'signup'])->name('auth.signup');
 Route::post('/signup',[App\Http\Controllers\Backend\AuthController::class, 'register'])->name('auth.register');
+
+Route::get('/posts',[App\Http\Controllers\Backend\PostController::class, 'index'])->name('posts.index');
