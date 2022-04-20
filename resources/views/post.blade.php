@@ -4,31 +4,35 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12" style="margin-bottom: -10px !important;">
                 <div class="card">
-                    <div class="card-header">{{ __('Posts') }}</div>
 
-                    <div class="card-body">
+                    <div class="card-header">{{ 'All Posts' }}</div>
 
-                        @if (!empty($user))
+                    @if (!empty($user))
 
-                            <div class="alert alert-success" role="alert">
-                                <h3>{{ 'All Posts' }}</h3>
-                            </div>
+                        @php
+                            $i=0;
+                            $alerts = ['success','primary','warning','secondary','danger'];
+                        @endphp
+
+                        <div class="card-body" style="margin-bottom: -15px !important;">
 
                             @foreach ($posts as $p)
 
-                                <div class="alert alert-warning" role="alert">
+                                <div class="alert alert-{{ $alerts[$i] }}" role="alert">
                                     <h4 class="alert-heading">{{ $p['title'] }}</h4>
                                     <p>{{ $p['description'] }}</p>
-                                    <p class="mb-0"></p>
                                 </div>
+
+                                @php if($i==4) { $i=0; } else { $i+=1; } @endphp
 
                             @endforeach
 
-                        @endif
+                        </div>
 
-                    </div>
+                    @endif
+
                 </div>
             </div>
         </div>
