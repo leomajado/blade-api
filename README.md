@@ -6,7 +6,6 @@
             width="400"
         >
     </a>
-    <h2 align="center">Blade</h2>
 </p>
 
 <p align="center">
