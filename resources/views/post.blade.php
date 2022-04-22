@@ -5,6 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12" style="margin-bottom: -10px !important;">
+
                 <div class="card">
 
                     <div class="card-header">{{ 'All Posts' }}</div>
@@ -20,10 +21,7 @@
 
                             @foreach ($posts as $p)
 
-                                <div class="alert alert-{{ $alerts[$i] }}" role="alert">
-                                    <h4 class="alert-heading">{{ $p['title'] }}</h4>
-                                    <p>{{ $p['description'] }}</p>
-                                </div>
+                                <x-postcard :title="$p['title']" :body="$p['description']" :color="$alerts[$i]" />
 
                                 @php if($i==4) { $i=0; } else { $i+=1; } @endphp
 
