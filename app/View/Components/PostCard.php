@@ -7,6 +7,7 @@ use Illuminate\View\Component;
 
 class Postcard extends Component
 {
+    public ?int $id;
     public ?string $title;
     public ?string $body;
     public ?string $color;
@@ -16,8 +17,9 @@ class Postcard extends Component
      *
      * @return void
      */
-    public function __construct(?string $title = null, ?string $body = null, ?string $color = 'primary')
+    public function __construct(?int $id = 0, ?string $title = null, ?string $body = null, ?string $color = 'primary')
     {
+        $this->id = $id;
         $this->title = $title;
         $this->body = $body;
         $this->color = $color;
@@ -30,6 +32,6 @@ class Postcard extends Component
      */
     public function render()
     {
-        return view('components.postcard');
+        return view('components.post-card');
     }
 }

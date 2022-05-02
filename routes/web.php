@@ -27,3 +27,4 @@ Route::get('/signup',[App\Http\Controllers\Backend\AuthController::class, 'signu
 Route::post('/signup',[App\Http\Controllers\Backend\AuthController::class, 'register'])->name('auth.register');
 
 Route::get('/posts',[App\Http\Controllers\Backend\PostController::class, 'index'])->name('posts.index');
+Route::post('/post/delete',[App\Http\Controllers\Backend\PostController::class, 'delete'])->name('post.delete');
