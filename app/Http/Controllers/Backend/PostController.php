@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-
 use App\Traits\UserTrait;
+
+use Illuminate\Http\Request;
 
 use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 use GuzzleHttp\Client;
 
@@ -19,7 +20,7 @@ class PostController extends Controller
 {
     use UserTrait;
 
-    public function index(Request $request){
+    public function index(){
         try {
 
             $user = $this->sessionStatus();
@@ -69,7 +70,10 @@ class PostController extends Controller
             ]);
 
             if($validator->fails()){
-                return redirect()->back()->withErrors($validator)->withInput();
+                return redirect()->
+                       back()->
+                       withErrors($validator)->
+                       withInput();
             }
 
             $api_url = Env::get('API_URL');
@@ -83,17 +87,34 @@ class PostController extends Controller
             ]);
 
             $response = $client->post($api_url.'/post',[
-                'debug' => false,
+                'defaults' => [
+                    'exceptions' => false,
+                    'timeout' => 1000
+                ],
                 'headers' => [
                     'Authorization' => 'Bearer '.Session::get('access_token')
                 ],
-                'body' => [
+                'form_params' => [
                     'title' => $request->title,
                     'description' => $request->description
+                ],
+                'debug' => false,
+            ]);
+
+            $post = json_decode((string) $response->getBody(),true);
+
+            $client = new Client([
+                'base_uri' => $api_url,
+                'defaults' => [
+                    'exceptions' => false,
+                    'timeout' => 1000
                 ]
             ]);
 
-            $data = json_decode((string) $response->getBody(),true);
+            if($post['status']=='ok')
+                return view('post')->compact();
+            else
+                throw new Exception("Error Processing Request", 404);
 
         } catch (\Exception $ex) {
             return redirect()->back()->withErrors($ex->getMessage())->withInput();
@@ -128,4 +149,39 @@ class PostController extends Controller
         }
     }
 
+    public function update(Request $request){
+        try {
+
+            $api_url = Env::get('API_URL');
+
+            $client = new Client([
+                'base_uri' => $api_url,
+                'defaults' => [
+                    'exceptions' => false,
+                    'timeout' => 1000
+                ]
+            ]);
+
+            $response = $client->put($api_url.'/post',[
+                'debug' => false,
+                'headers' => [
+                    'Authorization' => 'Bearer '.Session::get('access_token')
+                ],
+                'body' => [
+                    'title' => $request->title,
+                    'description' => $request->description
+                ]
+            ]);
+
+            $data = json_decode((string) $response->getBody(),true);
+
+
+
+        } catch (\Exception $ex) {
+            return redirect()->
+                   back()->
+                   withErrors($ex->getMessage())->
+                   withInput();
+        }
+    }
 }

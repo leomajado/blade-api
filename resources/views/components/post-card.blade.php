@@ -3,7 +3,7 @@
     <form method="post" action="{{ route('post.delete') }}">
         @csrf
         <input type="hidden" id="{{ $id }}"" name="post" value="{{ $id }}" />
-        <button type="submit" class="close">
+        <button type="submit" class="close" onclick="return confirm('Are you sure?');">
             <span aria-hidden="true">&times;</span>
         </button>
     </form>

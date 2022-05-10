@@ -1,8 +1,7 @@
 <?php
 
-namespace App\View\Components;
+namespace app\View\Components;
 
-use __PHP_Incomplete_Class;
 use Illuminate\View\Component;
 
 class Postcard extends Component
