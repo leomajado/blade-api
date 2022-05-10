@@ -28,3 +28,5 @@ Route::post('/signup',[App\Http\Controllers\Backend\AuthController::class, 'regi
 
 Route::get('/posts',[App\Http\Controllers\Backend\PostController::class, 'index'])->name('posts.index');
 Route::post('/post/delete',[App\Http\Controllers\Backend\PostController::class, 'delete'])->name('post.delete');
+Route::post('/post/store',[App\Http\Controllers\Backend\PostController::class, 'store'])->name('post.store');
+Route::post('/post/update',[App\Http\Controllers\Backend\PostController::class, 'update'])->name('post.update');
